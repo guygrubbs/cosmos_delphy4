@@ -1,0 +1,48 @@
+#==============================================================================
+# TELEMETRY PACKET: DELPHY_MESSAGE
+#==============================================================================
+TELEMETRY DELPHY DELPHY_MESSAGE 0x1001
+  # This line indicates that we want to treat the incoming data as Big Endian
+  # for this packet. "false" means "not swap," which is effectively Big Endian 
+  # if your hardware is big-endian. You can omit or adjust as needed.
+  APPEND_ID_ITEM BIG_ENDIAN false
+  
+  # Python script items: "Level", "Len", "Message"
+  ITEM LEVEL   32 UINT   "The message severity/level as per the Python code"
+  ITEM LEN     32 UINT   "The length of the text message"
+  # For the message, we assume a maximum message length (e.g., 256 bytes).
+  ITEM MESSAGE 256 STRING "The message text from DELPHY"
+
+#==============================================================================
+# TELEMETRY PACKET: DELPHY_ACKNOWLEDGE
+#==============================================================================
+TELEMETRY DELPHY DELPHY_ACKNOWLEDGE 0x1002
+  APPEND_ID_ITEM BIG_ENDIAN false
+  
+  # Python script items: "ID", "Code", "Len", "Message"
+  ITEM ID      32 UINT  "Packet ID that this ACK refers to"
+  ITEM Code    32 UINT  "Status code returned by DELPHY"
+  ITEM LEN     32 UINT  "Length of the ACK message text"
+  ITEM MESSAGE 256 STRING "The ACK message text from DELPHY"
+
+#==============================================================================
+# TELEMETRY PACKET: DELPHY_COMPLETION
+#==============================================================================
+TELEMETRY DELPHY DELPHY_COMPLETION 0x1003
+  APPEND_ID_ITEM BIG_ENDIAN false
+
+  # Python script items: "Code", "Len", "Message"
+  ITEM Code     32 UINT   "Completion status code"
+  ITEM LEN      32 UINT   "Length of the completion message text"
+  ITEM MESSAGE  256 STRING "The completion message text from DELPHY"
+
+#==============================================================================
+# TELEMETRY PACKET: DELPHY_STATUS
+#==============================================================================
+TELEMETRY DELPHY DELPHY_STATUS 0x1004
+  APPEND_ID_ITEM BIG_ENDIAN false
+  
+  # Python script items: "Connected", "CtrlRequest"
+  # In Python, these are boolean. In COSMOS, we often define them as UINT8.
+  ITEM Connected   8 UINT "Indicates if the interface is connected: 0=NO, 1=YES"
+  ITEM CtrlRequest 8 UINT "Indicates if external control has been requested/granted: 0=NO, 1=YES"

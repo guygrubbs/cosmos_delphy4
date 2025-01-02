@@ -1,0 +1,28 @@
+#------------------------------------------------------------------------------
+# TARGET Definition
+#------------------------------------------------------------------------------
+TARGET DELPHY
+
+#------------------------------------------------------------------------------
+# INTERFACE Definition
+#------------------------------------------------------------------------------
+INTERFACE DELPHY_INT
+  PROTOCOL TCPIP_CLIENT
+
+  # Replace with the actual IP address or hostname
+  HOST 129.162.153.79
+
+  # Replace with the appropriate port for the DELPHY connection
+  PORT 14670
+
+  # Increase if you expect large packets or a high rate of data
+  PACKET_BUFFER_SIZE 32768
+
+  # This indicates we’re passing data as raw bytes (binary),
+  # so a custom parser can handle the packet format.
+  BINARY
+
+  # In COSMOS v4, USER_DATA_ROUTER can be used to direct all inbound data
+  # to a Ruby script that processes/parses it. 
+  # Adjust the path and module/class name to match your setup.
+  USER_DATA_ROUTER ruby:config/targets/delphy/lib/delphy_decoder.rb:Delphy::Decoder
